@@ -1,0 +1,73 @@
+INCREASING TRIPLET SUBSEQUENCE
+
+
+
+class Solution {
+  public boolean increasingTriplet(int[] nums) {
+    int first = Integer.MAX_VALUE;
+    int second = Integer.MAX_VALUE;
+
+    for (final int num : nums)
+      if (num <= first)
+        first = num;
+      else if (num <= second) // first < num <= second
+        second = num;
+      else // first < second < num (third)
+        return true;
+
+    return false;
+  }
+}
+
+
+PRODUCT OF ARRAY EXCEPT SELF
+
+
+
+class Solution {
+public:
+    vector<int> productExceptSelf(vector<int>& nums) {
+        vector<int>res(nums.size(), 1);
+        
+        for (int i = 1; i < nums.size(); i++) {
+            res[i] = res[i-1] * nums[i-1];
+        }
+        
+        int tmp = 1;
+        for (int i = nums.size() - 1; i >= 0; i--) {
+            res[i] *= tmp;
+            tmp *= nums[i];
+        }
+        
+        return res;
+    }
+};
+
+
+
+SUB ARRAY SUM WQUALS K
+
+
+
+
+public class Solution {
+    public int subarraySum(int[] nums, int k) {
+        int[] sums = new int[nums.length + 1];
+        int sum = 0;
+        for (int i = 0; i < nums.length; i ++) {
+            sum += nums[i];
+            sums[i + 1] = sum;
+        }
+        int count = 0;
+        for (int i = 0; i < nums.length; i ++) {
+            int pre = sums[i];
+            for (int j = i; j < nums.length; j ++) {
+                int tmp = sums[j + 1] - pre;
+                if (tmp == k) {
+                    count ++;
+                }
+            }
+        }
+        return count;
+    }
+}
