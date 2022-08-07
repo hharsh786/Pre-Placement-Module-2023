@@ -1,0 +1,115 @@
+SORT COLOURS
+
+
+
+public class Solution {
+    public void sortColors(int[] nums) {
+        int redSt=0, bluSt=nums.length-1;
+        int i=0;
+        while(i<bluSt+1){
+            if(nums[i]==0){
+                int tmp = nums[i];
+                nums[i] = nums[redSt];
+                nums[redSt] = tmp;
+                redSt++;
+                i++;
+                continue;
+            }
+            if(nums[i] ==2){
+                int tmp = nums[i];
+                nums[i] = nums[bluSt];
+                nums[bluSt] = tmp;
+                bluSt--;
+                continue;
+            }
+            i++;
+        }
+    }
+}
+
+
+
+
+MERGE INTERVALS
+
+
+
+
+class Solution {
+    public int[][] merge(int[][] intervals) {
+        if (intervals.length <= 1)  return intervals;
+
+        // Sort by ascending starting point
+        Arrays.sort(intervals, (i1, i2) -> i1[0] - i2[0]);
+
+        List<int[]> result = new ArrayList<>();
+        int[] prevInterval = intervals[0];
+        result.add(prevInterval);
+        for (int[] interval : intervals) {
+            if (interval[0] <= prevInterval[1]) {
+        // Overlapping intervals, move the end if needed
+                prevInterval[1] = Math.max(prevInterval[1], interval[1]);
+      } else {                             
+        // Disjoint intervals, add the new interval to the list
+                prevInterval = interval;
+                result.add(prevInterval);
+            }
+        }
+
+        return result.toArray(new int[result.size()][]);
+    }
+}
+
+
+
+
+DESIGN HASHMAPS
+
+
+
+
+class MyHashMap {
+  /** Initialize your data structure here. */
+  public MyHashMap() {
+    lists = new List[kSize];
+
+    for (int i = 0; i < kSize; ++i)
+      lists[i] = new ArrayList<>();
+  }
+
+  /** value will always be non-negative. */
+  public void put(int key, int value) {
+    for (int[] pair : lists[key % kSize])
+      if (pair[0] == key) {
+        pair[1] = value;
+        return;
+      }
+    lists[key % kSize].add(new int[] {key, value});
+  }
+
+  /**
+   * Returns the value to which the specified key is mapped, or -1 if this map
+   * contains no mapping for the key
+   */
+  public int get(int key) {
+    for (int[] pair : lists[key % kSize])
+      if (pair[0] == key)
+        return pair[1];
+    return -1;
+  }
+
+  /**
+   * Removes the mapping of the specified value key if this map contains a mapping
+   * for the key
+   */
+  public void remove(int key) {
+    for (int i = 0; i < lists[key % kSize].size(); ++i)
+      if (lists[key % kSize].get(i)[0] == key) {
+        lists[key % kSize].remove(i);
+        return;
+      }
+  }
+
+  private static final int kSize = 10000;
+  List<int[]>[] lists; // each slot store (key, value) list
+}
