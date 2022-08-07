@@ -1,76 +1,82 @@
-BINARY SEARCH
+SINGLE NUMBER
 
 
 
 class Solution {
-    public int search(int[] nums, int target) {
-        int lo = 0, hi = nums.length - 1;
-        while (lo <= hi) {
-            int mi = lo + (hi - lo) / 2;
-            if (nums[mi] == target) return mi;
-            else if (nums[mi] < target) lo = mi + 1;
-            else hi = mi - 1;
-        }
-        return -1;
-    }
-}
+  public int singleNumber(int[] nums) {
+    int ans = 0;
 
+    for (final int num : nums)
+      ans ^= num;
 
-FIRST BAD VERSION
-
-
-
-public class Solution extends VersionControl {
-  public int firstBadVersion(int n) {
-    int l = 1;
-    int r = n;
-
-    while (l < r) {
-      final int m = l + (r - l) / 2;
-      if (isBadVersion(m))
-        r = m;
-      else
-        l = m + 1;
-    }
-
-    return l;
+    return ans;
   }
 }
 
 
 
-SEARCH INSERT POSITION
+MAJORITY ELEMENT
 
 
+public class Solution {
+        public int majorityElement(int[] nums) {
+        int majority = nums[0];
+        int count = 1;
 
-
-class Solution {
-    public int searchInsert(int[] nums, int target) {
-        int result = 0;
-        
-        if(nums.length==1 && target>nums[0]){
-            return 1;
-        }
-        
-        for(int i=0;i<nums.length-1;i++){
-            if(target == nums[i]){
-                result =  i;
-                break;
-            }else if(target>nums[i] && target<=nums[i+1]){
-                result = i+1;
-                break;
-            }else if(target>nums[i+1] && (nums.length-1==i+1)){
-                result= nums.length;
-                break;
-            }else if(target<nums[i] && i==0){
-                result =  0;
-                break;
-            }else if(target>nums[i] && target>nums[i+1]){
-                continue;
+        for (int i = 1; i < nums.length; i++) {
+            if (count == 0) {
+                majority = nums[i];
+                count = 1;
+            } else {
+                count = majority == nums[i] ? count + 1 : count - 1;
             }
         }
-        
-        return result;
-        
+
+        return majority;
     }
+}
+
+
+
+3 SUM
+
+
+
+
+public List<List<Integer>> threeSum(int[] nums) {
+    Arrays.sort(nums);
+ 
+    ArrayList<List<Integer>> result = new ArrayList<>();
+ 
+    for (int i = 0; i < nums.length; i++) {
+        int j = i + 1;
+        int k = nums.length - 1;
+ 
+        if (i > 0 && nums[i] == nums[i - 1]) {
+            continue;
+        }
+ 
+        while (j < k) {
+            if (k < nums.length - 1 && nums[k] == nums[k + 1]) {
+                k--;
+                continue;
+            }
+ 
+            if (nums[i] + nums[j] + nums[k] > 0) {
+                k--;
+            } else if (nums[i] + nums[j] + nums[k] < 0) {
+                j++;
+            } else {
+                ArrayList<Integer> l = new ArrayList<>();
+                l.add(nums[i]);
+                l.add(nums[j]);
+                l.add(nums[k]);
+                result.add(l);
+                j++;
+                k--;
+            }
+        }
+    }
+ 
+    return result;
 }
