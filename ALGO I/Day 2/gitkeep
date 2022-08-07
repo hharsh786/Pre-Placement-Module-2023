@@ -1,0 +1,84 @@
+SQUEARES OF SORTED ARRAY
+
+
+
+class Solution {
+  public int[] sortedSquares(int[] A) {
+    final int n = A.length;
+    int[] ans = new int[n];
+    int i = n - 1;
+
+    for (int l = 0, r = n - 1; l <= r;)
+      if (Math.abs(A[l]) > Math.abs(A[r]))
+        ans[i--] = A[l] * A[l++];
+      else
+        ans[i--] = A[r] * A[r--];
+
+    return ans;
+ 
+ }
+}
+
+
+
+ROTATE ARRAY
+
+
+
+
+public class Solution {
+    public void rotate(int[] nums, int k) {
+        if (nums.length == 0) {
+            return;
+        }
+        k = k % nums.length;
+        rotate1(nums, k);
+        rotate2(nums, k);
+        rotate3(nums, k);
+    }
+    private void rotate3(int[] nums, int k) {
+        int curr = nums[0];
+        int index = 0;
+        int distance = 0;
+        for (int i = 0; i < nums.length; i ++) {
+            index = (index + k) % nums.length;
+            int tmp = nums[index];
+            nums[index] = curr;
+            curr = tmp;
+            distance = (distance + k) % nums.length;
+            if (distance == 0) {
+                index = (index + 1) % nums.length;
+                curr = nums[index];
+            }
+        }
+    }
+    private void rotate2(int[] nums, int k) {
+        reverse(nums, 0, nums.length - 1);
+        reverse(nums, 0, k - 1);
+        reverse(nums, k, nums.length - 1);
+    }
+    private void reverse(int[] nums, int i, int j) {
+        while (i < j) {
+            int tmp = nums[i];
+            nums[i] = nums[j];
+            nums[j] = tmp;
+            i ++;
+            j --;
+        }
+    }
+    private void rotate1(int[] nums, int k) {
+        int[] newSums = new int[nums.length];
+        for (int i = 0; i < nums.length; i ++) {
+            int j = (i + k) % nums.length;
+            newSums[j] = nums[i];
+        }
+        for (int i = 0; i < nums.length; i ++) {
+            nums[i] = newSums[i];
+        }
+    }
+}
+
+
+
+
+
