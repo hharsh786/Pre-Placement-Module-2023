@@ -1,0 +1,60 @@
+GROUP ANAGRAMS
+
+
+
+public class Solution {
+    public List<List<String>> groupAnagrams(String[] strs) {
+        HashMap<String, LinkedList<String>> map = new HashMap<>();
+        for (String str : strs) {
+            String key = sort(str);
+            if (map.containsKey(key)) {
+                map.get(key).add(str);
+            } else {
+                LinkedList<String> list = new LinkedList<>();
+                list.add(str);
+                map.put(key, list);
+            }
+        }
+        LinkedList<List<String>> res = new LinkedList<>();
+        for (Map.Entry<String, LinkedList<String>> entry : map.entrySet()) { // note the for loop here
+            res.add(entry.getValue());
+        }
+        return res;
+    }
+    
+    private String sort(String str) { // sort a string
+        char[] chars = str.toCharArray();
+        Arrays.sort(chars);
+        return new String(chars);
+    }
+}
+
+
+
+MULTIPLY STRINGS
+
+
+
+
+class Solution {
+  public String multiply(String num1, String num2) {
+    final int m = num1.length();
+    final int n = num2.length();
+
+    StringBuilder sb = new StringBuilder();
+    int[] pos = new int[m + n];
+
+    for (int i = m - 1; i >= 0; --i)
+      for (int j = n - 1; j >= 0; --j) {
+        final int multiply = (num1.charAt(i) - '0') * (num2.charAt(j) - '0');
+        final int sum = multiply + pos[i + j + 1];
+        pos[i + j] += sum / 10;
+        pos[i + j + 1] = sum % 10;
+      }
+
+    for (final int p : pos)
+      if (p > 0 || sb.length() > 0)
+        sb.append(p);
+
+    return sb.length() == 0 ? "0" : sb.toString();
+  }
