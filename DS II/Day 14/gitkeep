@@ -1,0 +1,81 @@
+MIN STACK
+
+
+class MinStack {
+  public void push(int x) {
+    if (stack.isEmpty())
+      stack.push(new int[] {x, x});
+    else
+      stack.push(new int[] {x, Math.min(x, stack.peek()[1])});
+  }
+
+  public void pop() {
+    stack.pop();
+  }
+
+  public int top() {
+    return stack.peek()[0];
+  }
+
+  public int getMin() {
+    return stack.peek()[1];
+  }
+
+  private Stack<int[]> stack = new Stack<>(); // {x, min}
+}
+
+MINIMUM REMOVE TO MAKE VALID PARENTHESIS
+
+
+
+class Solution {
+  public String minRemoveToMakeValid(String s) {
+    Deque<Integer> stack = new ArrayDeque<>(); // unpaired '(' indices
+    StringBuilder sb = new StringBuilder(s);
+
+    for (int i = 0; i < s.length(); ++i)
+      if (sb.charAt(i) == '(') {
+        stack.push(i); // record unpaired '(' index
+      } else if (sb.charAt(i) == ')') {
+        if (stack.isEmpty())
+          sb.setCharAt(i, '#'); // mark unpaired ')' as '#'
+        else
+          stack.pop(); // find a pair!
+      }
+
+    // mark unpaired '(' as '#'
+    while (!stack.isEmpty())
+      sb.setCharAt(stack.pop(), '#');
+
+    return sb.toString().replaceAll("#", "");
+  }
+}
+
+
+
+
+FIND THE WINNER OF CIRCULAR GAME
+
+
+
+class Solution {
+  public int findTheWinner(int n, int k) {
+    // true if i-th friend is left
+    boolean[] friends = new boolean[n];
+
+    int friendCount = n;
+    int fp = n; // friends' pointer
+
+    while (friendCount > 1) {
+      for (int i = 0; i < k; ++i, ++fp)
+        while (friends[fp % n]) // the friend is not there
+          ++fp;                 // point to the next one
+      friends[(fp - 1) % n] = true;
+      --friendCount;
+    }
+
+    for (fp = 0; friends[fp]; ++fp)
+      ;
+    return fp + 1;
+  }
+}
