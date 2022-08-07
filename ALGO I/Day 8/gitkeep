@@ -1,0 +1,58 @@
+MERGE TWO BINARY TREES
+
+
+
+public TreeNode mergeTrees(TreeNode t1, TreeNode t2) {
+        if (t1 == null)
+            return t2;
+        Stack < TreeNode[] > stack = new Stack < > ();
+        stack.push(new TreeNode[] {t1, t2});
+        while (!stack.isEmpty()) {
+            TreeNode[] t = stack.pop();
+            if (t[0] == null || t[1] == null) {
+                continue;
+            }
+            t[0].val += t[1].val;
+            if (t[0].left == null) {
+                t[0].left = t[1].left;
+            } else {
+                stack.push(new TreeNode[] {t[0].left, t[1].left});
+            }
+            if (t[0].right == null) {
+                t[0].right = t[1].right;
+            } else {
+                stack.push(new TreeNode[] {t[0].right, t[1].right});
+            }
+        }
+        return t1;
+    }
+    
+    
+    
+    
+    Populating Next Right Pointers in Each Node
+    
+    
+    
+    
+    public class Solution {
+    public void connect(TreeLinkNode root) {
+        LinkedList<TreeLinkNode> list = new LinkedList<>();
+        if(root == null) return;
+        list.add(root);
+        while(!list.isEmpty()){
+            int size = list.size();
+            TreeLinkNode node = list.poll();
+            if(node.left != null) list.add(node.left);
+            if(node.right != null) list.add(node.right);
+            for(int i = 0; i < size - 1; i++){
+                TreeLinkNode temp = list.poll();
+                if(temp.left != null) list.add(temp.left);
+                if(temp.right != null) list.add(temp.right);
+                node.next = temp;
+                node = temp;
+            }
+            node.next = null;
+        }
+    }
+}
