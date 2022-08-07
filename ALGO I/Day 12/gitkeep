@@ -1,0 +1,70 @@
+CLIMBING STAIRS
+
+
+
+class Solution {
+    public int climbStairs(int n) {
+        if (n <= 1) {
+            return 1;
+        }
+        
+        int[] ways = new int[n + 1];
+        ways[0] = 1;
+        ways[1] = 1;
+        
+        for (int i = 2; i <= n; i++) {
+            ways[i] = ways[i - 2] + ways[i - 1];
+        }
+        
+        return ways[n];
+    }
+}
+
+
+
+
+HOUSE ROBBER
+
+
+
+class Solution {
+    public int rob(int[] nums) {
+        int n = nums.length;
+        if( n==1 ){
+            return nums[0];
+        }else if(n == 0){
+            return 0;
+        }else if(n == 2){
+            return Math.max(nums[0],nums[1]);
+        }
+        
+        int dp[] = new int[n];
+        dp[0] = nums[0];
+        dp[1] = nums[1];
+        dp[2] = nums[2] + nums[0];
+        for(int i=3;i<n;i++){
+            dp[i] = Math.max(dp[i-2],dp[i-3]) + nums[i];
+        }
+        
+        return Math.max(dp[n-1],dp[n-2]);
+        
+    }
+}
+
+
+
+TRIANGLE
+
+
+
+
+
+class Solution {
+  public int minimumTotal(List<List<Integer>> triangle) {
+    for (int i = triangle.size() - 2; i >= 0; --i)
+      for (int j = 0; j <= i; ++j)
+        triangle.get(i).set(j, triangle.get(i).get(j) + Math.min(triangle.get(i + 1).get(j),
+                                                                 triangle.get(i + 1).get(j + 1)));
+    return triangle.get(0).get(0);
+  }
+}
