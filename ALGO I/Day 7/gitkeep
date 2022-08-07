@@ -1,0 +1,56 @@
+FLOOD FILL
+
+
+
+class Solution {
+    public int[][] floodFill(int[][] image, int sr, int sc, int newColor) {
+        if (image[sr][sc] == newColor) return image;
+        
+        flood(image, image[sr][sc], newColor, sr, sc);
+        
+        return image;
+    }
+    
+public void flood(int[][] image, int color, int newColor, int sr, int sc) {
+        if (sr < 0 || sc < 0 ||  sr >= image.length || sc >= image[0].length || image[sr][sc] != color) {
+            return;
+        }
+        
+        image[sr][sc] = newColor;
+        
+        int topRowNeighbour = sr - 1;
+        int bottomRowNeighbour = sr + 1;
+        int leftColumnNeigbour = sc - 1;
+        int rightColumnNeighbour = sc + 1;
+        
+        flood(image, color, newColor, topRowNeighbour, sc );
+        flood(image, color, newColor, bottomRowNeighbour, sc );
+        flood(image, color, newColor, sr, leftColumnNeigbour );
+        flood(image, color, newColor, sr, rightColumnNeighbour );
+    }
+}
+
+
+
+
+MAX AREA OF ISLAND
+
+
+
+class Solution {
+    private int n, m;
+    public int maxAreaOfIsland(int[][] grid) {
+        int ans = 0;
+        n = grid.length;
+        m = grid[0].length;
+        for (int i = 0; i < n; i++) 
+            for (int j = 0; j < m; j++)
+                if (grid[i][j] > 0) ans = Math.max(ans, trav(i, j, grid));
+        return ans;
+    }
+    private int trav(int i, int j, int[][] grid) {
+        if (i < 0 || j < 0 || i >= n || j >= m || grid[i][j] < 1) return 0;
+        grid[i][j] = 0;
+        return 1 + trav(i-1, j, grid) + trav(i, j-1, grid) + trav(i+1, j, grid) + trav(i, j+1, grid);
+    }
+}
