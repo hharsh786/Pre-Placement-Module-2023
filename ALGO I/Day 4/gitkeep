@@ -1,0 +1,45 @@
+REVERSE STRONG
+
+
+
+
+public class Solution {
+    public String reverseString(String s) {
+        int left = 0, right = s.length() - 1;
+        char[] chars = s.toCharArray();
+        while (left < right) {
+            char tmp = chars[left];
+            chars[left] = chars[right];
+            chars[right] = tmp;
+            left ++;
+            right --;
+        }
+        return new String(chars);
+    }
+}
+
+
+
+REVERSE WORDS IN A STRIGN III
+
+
+void reverse(int lo, int hi, char* s){
+    while(lo < hi){
+        s[lo] = s[hi] ^ s[lo];
+        s[hi] = s[hi] ^ s[lo];
+        s[lo] = s[hi] ^ s[lo];
+        lo++;
+        hi--;
+    }
+}
+char * reverseWords(char * s){
+    int start = 0;
+    int s_len = strlen(s);
+    for(int i=0; i<=s_len; i++){
+        if((s[i] == ' ') || (s[i] == '\0')){
+            reverse(start, i-1, s);
+            start = i + 1;
+        }
+    }
+    return s;
+}
